@@ -17,6 +17,11 @@ def client(tmp_path):
     conn = sqlite3.connect(app_module.DATABASE)
     with open(app_module.BASE_DIR / "schema.sql", encoding="utf-8") as f:
         conn.executescript(f.read())
+    conn.execute(
+        "INSERT INTO tickets (title, room, description) VALUES (?, ?, ?)",
+        ("教室投影仪无法开机", "A区301", "按下电源键无反应"),
+    )
+    conn.commit()
     conn.close()
 
     with app_module.app.test_client() as c:
