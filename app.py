@@ -12,6 +12,7 @@ INSTANCE_DIR = BASE_DIR / "instance"
 DATABASE = Path(os.environ.get("DATABASE_PATH", INSTANCE_DIR / "campusfix.db"))
 
 app = Flask(__name__)
+APP_TITLE = "CampusFix-20252001"  # 首页标题（含学号）
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-only-secret")
 
 # 基本日志配置：输出到 stdout，格式含时间与级别
@@ -69,6 +70,9 @@ def create_ticket():
         title = request.form.get("title", "").strip()
         room = request.form.get("room", "").strip()
         description = request.form.get("description", "").strip()
+        error = validate_ticket(title, room)
+        if error:
+            return error, 400
         db = get_db()
         db.execute(
             "INSERT INTO tickets (title, room, description) VALUES (?, ?, ?)",
@@ -83,3 +87,9 @@ def create_ticket():
 if __name__ == "__main__":
     # 仅开发用途；生产部署使用 gunicorn（第11次课）
     app.run(host="127.0.0.1", port=5000, debug=True)
+
+
+def validate_ticket(title, room):
+    if len(title) > 20:
+        return "标题不能超过20个字符"
+    return None
