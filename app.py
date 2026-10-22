@@ -12,6 +12,7 @@ INSTANCE_DIR = BASE_DIR / "instance"
 DATABASE = Path(os.environ.get("DATABASE_PATH", INSTANCE_DIR / "campusfix.db"))
 
 app = Flask(__name__)
+APP_TITLE = "CampusFix-20252001"  # 首页标题（含学号）
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-only-secret")
 
 # 基本日志配置：输出到 stdout，格式含时间与级别

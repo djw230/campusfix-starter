@@ -20,4 +20,4 @@ def test_create(client):
 def test_index_title(client):
     resp = client.get("/")
     assert resp.status_code == 200
-    assert "邓杰文 20252001" in resp.data.decode()
+    assert "CampusFix-20252001" in resp.data.decode()
