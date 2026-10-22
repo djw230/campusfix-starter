@@ -16,3 +16,8 @@ def test_create(client):
     }, follow_redirects=True)
     assert resp.status_code == 200
     assert "测试工单" in resp.data.decode()
+
+def test_index_title(client):
+    resp = client.get("/")
+    assert resp.status_code == 200
+    assert "邓杰文 20252001" in resp.data.decode()
